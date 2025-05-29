@@ -2,10 +2,11 @@
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-        "baseUrl": ".",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": ["node"]
   },
   "files": [],
   "references": [
