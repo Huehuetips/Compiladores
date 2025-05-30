@@ -13,9 +13,9 @@ app.register(cors, {
 app.register(require("./routes/status"))
 app.register(require("./routes/parser"))
 app.register(require("./routes/recursion"))
-// app.register(require("./routes/first"))
-// app.register(require("./routes/follow"))
-// app.register(require("./routes/table"))
+app.register(require("./routes/first"))
+app.register(require("./routes/follow"))
+app.register(require("./routes/table"))
 
 // Iniciar servidor
 const PORT = 3000

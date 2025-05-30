@@ -1,21 +1,24 @@
-const { extractVariables, extractTerminals, extractProductions } = require("../utils/grammarUtils")
+const { parseGrammarFromText } = require("../utils/grammarUtils")
 
 async function analyze(request, reply) {
-  const { grammar } = request.body
+  const contentType = request.headers["content-type"]
 
-  if (!grammar) {
-    return reply.code(400).send({ error: "El campo 'grammar' es requerido." })
+  let grammar = ""
+
+  if (contentType.includes("application/json")) {
+    grammar = request.body?.grammar
+  } else if (contentType.includes("text/plain")) {
+    grammar = request.body
+  }
+
+  if (!grammar || typeof grammar !== "string") {
+    return reply.code(400).send({ error: "La gramática es requerida" })
   }
 
   try {
-    const variables = extractVariables(grammar)
-    const terminales = extractTerminals(grammar)
-    const producciones = extractProductions(grammar)
-
+    const result = parseGrammarFromText(grammar)
     return {
-      variables,
-      terminales,
-      producciones,
+      ...result,
       timestamp: new Date().toISOString()
     }
   } catch (err) {

@@ -14,23 +14,23 @@ function removeLeftRecursion(variables, producciones) {
     const nonRecursive = []
 
     all.forEach(prod => {
-      const symbols = prod.trim().split(/(?=\s)|(?='[^']*')|(?=[A-Za-z])/).filter(Boolean)
-      if (symbols[0] === variable) {
-        recursive.push(symbols.slice(1))
+      // prod ahora es un array de símbolos
+      if (Array.isArray(prod) && prod[0] === variable) {
+        recursive.push(prod.slice(1))
       } else {
-        nonRecursive.push(symbols)
+        nonRecursive.push(prod)
       }
     })
 
     if (recursive.length > 0) {
       const newVar = variable + "1"
       nonRecursive.forEach(prod => {
-        result.push({ variable, production: prod.concat(newVar).join(" ") })
+        result.push({ variable, production: [...prod, newVar] })
       })
       recursive.forEach(prod => {
-        result.push({ variable: newVar, production: prod.concat(newVar).join(" ") })
+        result.push({ variable: newVar, production: [...prod, newVar] })
       })
-      result.push({ variable: newVar, production: "ε" })
+      result.push({ variable: newVar, production: ["e"] })
     } else {
       all.forEach(prod => result.push({ variable, production: prod }))
     }
@@ -44,11 +44,12 @@ function formatProductionsAsText(productions) {
 
   productions.forEach(({ variable, production }) => {
     if (!grouped[variable]) grouped[variable] = []
-    grouped[variable].push(production)
+    // Convierte producción a string si es array
+    grouped[variable].push(Array.isArray(production) ? production.join(" ") : production)
   })
 
   return Object.entries(grouped)
-    .map(([v, prods]) => `${v} = ${prods.join("|")}`)
+    .map(([v, prods]) => `${v} = ${prods.join(" | ")}`)
     .join("\n")
 }
 
