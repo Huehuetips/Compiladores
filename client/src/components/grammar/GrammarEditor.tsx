@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "../ui/button"
 import { Play, Code, Database } from "lucide-react"
 import { useGrammarAnalyzer } from "../../hooks/useGrammarAnalyzer"
@@ -42,7 +42,8 @@ export default function GrammarEditor({
   const { execute } = useGrammarAnalyzer()
   const { execute: removeRecursion } = useLeftRecursionRemover()
 
-  const handleExecute = async () => {
+  // Usar useCallback para evitar recrear la función en cada render
+  const handleExecute = useCallback(async () => {
     setLoading(true)
     setTerminalLines(prev => [...prev, "> Enviando gramática al servidor..."])
 
@@ -115,50 +116,83 @@ export default function GrammarEditor({
     ])
 
     setLoading(false)
-  }
+  }, [
+    grammarInput,
+    setTerminalLines,
+    execute,
+    setVariables,
+    setTerminales,
+    setProducciones,
+    removeRecursion,
+    setLeftRecursionInput,
+    setVariablesSinRec,
+    setTerminalesSinRec,
+    setProduccionesSinRec
+  ])
+
+  // Ejecutar handleExecute al presionar F9
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "F9") {
+        e.preventDefault()
+        if (!loading) handleExecute()
+      }
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [handleExecute, loading])
 
   return (
-    <div className="bg-gray-800 border border-gray-700 p-4 rounded-lg">
+    <div className="h-full flex flex-col">
       <div className="flex justify-between mb-2">
         <h2 className="font-bold m-2">Editor de Gramática</h2>
         <div className="flex items-center gap-3">
-          <Button
-            onClick={handleExecute}
-            disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 cursor-pointer text-white rounded-md"
-          >
-            {loading ? (
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Procesando...
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Play size={16} />
-                Ejecutar
-              </div>
-            )}
-          </Button>
+          <div className="relative group">
+            <Button
+              onClick={handleExecute}
+              disabled={loading}
+              className="bg-blue-600 hover:bg-blue-700 cursor-pointer text-white rounded-md"
+            >
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Procesando...
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Play size={16} />
+                  Ejecutar
+                </div>
+              )}
+            </Button>
+            {/* Tooltip abajo y alineado a la izquierda */}
+            <div className="absolute left-0 top-full mt-2 hidden group-hover:block bg-gray-800 text-gray-100 text-xs rounded px-3 py-2 shadow-lg whitespace-nowrap z-10">
+              Analiza la gramática, 
+              Elimina la recursividad por la izquierda
+              Evalúa funcion primera y siguiente
+              Determina la tabla de símbolos (F9)
+            </div>
+          </div>
           <div className="bg-gray-700 border border-gray-600 px-3 py-2 rounded text-gray-300 text-sm font-medium">
             F9
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 min-[832px]:grid-cols-3 gap-2 h-full overflow-hidden">
         <textarea
-          className="h-64 bg-gray-900 border p-5 text-gray-100 font-mono resize-none focus:outline-none border-transparent rounded-md"
+          className=" bg-gray-900 border p-5 min-[832px]:h-full min-h-[300px] text-gray-100 font-mono resize-none focus:outline-none border-transparent rounded-md scrollbar-custom"
           value={grammarInput}
           onChange={(e) => setGrammarInput(e.target.value)}
           placeholder="Gramática..."
         />
 
-        <div className="h-full bg-gray-900 border border-gray-600 rounded-lg p-4">
+        <div className="h-full bg-gray-900 border border-gray-600 rounded-lg p-4 flex flex-col overflow-hidden">
           <h3 className="text-gray-100 mb-3 text-sm flex items-center gap-2">
             <Code size={18} className="text-blue-400" />
             Vectores
           </h3>
-          <div className="max-h-48 overflow-auto">
+          <div className="flex-1 min-h-0 max-h-full overflow-auto scrollbar-custom">
             <table className="w-full text-sm border-collapse">
               <thead className="sticky top-0">
                 <tr>
@@ -181,13 +215,13 @@ export default function GrammarEditor({
           </div>
         </div>
 
-        <div className="bg-gray-900 border border-gray-600 rounded-lg p-4">
+        <div className="h-full bg-gray-900 border border-gray-600 rounded-lg p-4 flex flex-col overflow-hidden">
           <h3 className="text-gray-100 mb-3 text-sm flex items-center gap-2">
             <Database size={18} className="text-blue-400" />
             Producciones
             <span className="ml-2 text-xs text-gray-400">({producciones.length})</span>
           </h3>
-          <div className="max-h-48 overflow-auto">
+          <div className="flex-1 min-h-0 max-h-full overflow-auto scrollbar-custom">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr>

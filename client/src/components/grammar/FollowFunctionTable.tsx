@@ -58,9 +58,9 @@ export default function FollowFunctionTable({
   }, [variables, terminales, producciones, setTerminalLines, execute, setResultado])
 
   return (
-    <div className="bg-gray-800 border border-gray-700 p-4 rounded-lg">
+    <div className="h-full flex flex-col">
       <h2 className="font-bold text-gray-100 mb-4">Función SIGUIENTE</h2>
-      <div className="max-h-120 overflow-auto">
+      <div className="overflow-auto scrollbar-custom">
         <table className="w-full border-collapse text-sm">
           <thead className="sticky top-0 z-10">
             <tr>

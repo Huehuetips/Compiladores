@@ -56,13 +56,13 @@ export default function FirstFunctionTable({
   }, [variables, terminales, producciones, setTerminalLines, setResultado])
 
   return (
-    <div className="bg-gray-800 border border-gray-700 p-4 rounded-lg">
+    <div className="h-full flex flex-col">
       <h2 className="font-bold text-gray-100 mb-4">Función PRIMERO</h2>
-      <div className="overflow-auto max-h-120">
+      <div className="overflow-auto scrollbar-custom">
         <table className="w-full text-sm border-collapse">
           <thead className="sticky top-0 z-10">
             <tr>
-              <th className="bg-gray-700 border border-gray-600 p-1 text-center text-gray-300 sticky left-0 z-20 min-w-[120px]">
+              <th className="bg-gray-700 border border-gray-600 p-1 text-center text-gray-300 sticky left-0 z-20">
                 Variable
               </th>
               <th className="bg-gray-700 border border-gray-600 p-1 text-center text-gray-300">

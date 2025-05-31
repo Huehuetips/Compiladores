@@ -15,8 +15,8 @@ export default function TerminalOutput({ terminalLines }: Props) {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [terminalLines])
 
-  return (
-    <div className="bg-gray-800 border border-gray-700 p-6 rounded-lg mt-6">
+  return (    
+    <div className="h-full flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-gray-100">Terminal</h2>
         <div className="flex items-center gap-2">
@@ -25,9 +25,9 @@ export default function TerminalOutput({ terminalLines }: Props) {
         </div>
       </div>
 
-      <div className="bg-gray-900 border border-gray-600 p-4 h-40 overflow-auto font-mono text-sm rounded">
+      <div className="h-full bg-gray-900 border border-gray-600 p-2 overflow-auto scrollbar-custom font-mono text-sm rounded">
         {terminalLines.map((line, index) => (
-          <div key={index} className="text-gray-300 mb-1">
+          <div key={index} className="text-gray-300">
             {line}
           </div>
         ))}

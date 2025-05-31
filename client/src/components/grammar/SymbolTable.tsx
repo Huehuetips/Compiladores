@@ -34,8 +34,6 @@ export default function SymbolTable({
 
       try {
         const result = await execute({ producciones, primero, siguiente })
-        console.log("🧪 Resultado de la API /table:", result)
-
         if (result && result.columns && result.rows) {
           setColumns(result.columns)
           setRows(result.rows)
@@ -59,13 +57,13 @@ export default function SymbolTable({
   }, [producciones, primero, siguiente, execute, setTerminalLines])
 
   return (
-    <div className="bg-gray-800 border border-gray-700 p-4 rounded-lg">
+    <div className="h-full flex flex-col">
       <h2 className="font-bold text-gray-100 mb-4 flex items-center gap-2">
         <Table size={18} className="text-blue-400" />
         Tabla de Símbolos
       </h2>
 
-      <div className="overflow-auto max-h-120">
+      <div className="overflow-auto scrollbar-custom">
         <table className="w-full text-sm border-collapse">
           <thead className="sticky top-0 z-10">
             <tr>
@@ -102,7 +100,7 @@ export default function SymbolTable({
                     onMouseEnter={() => setHovered({ row: rowIdx, col: colIdx + 1 })}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    {value ?? "—"}
+                    {typeof value === "string" ? value.split(" ").join("") : "—"}
                   </td>
                 ))}
               </tr>

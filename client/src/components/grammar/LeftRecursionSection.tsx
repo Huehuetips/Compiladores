@@ -17,7 +17,7 @@ export default function LeftRecursionSection({
   producciones
 }: Props) {
   return (
-    <div className="bg-gray-800 border border-gray-700 p-4 rounded-lg">
+    <div className="h-full flex flex-col overflow-hidden">
       <div className="flex justify-between mb-2">
         <h2 className="font-bold m-2">Gramática Sin Recursividad</h2>
         <div className="flex items-center gap-3">
@@ -26,22 +26,21 @@ export default function LeftRecursionSection({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 min-[832px]:grid-cols-3 gap-2 h-full overflow-hidden">
         <textarea
           placeholder="Resultado sin recursividad"
           aria-label="Texto sin recursividad"
-          className="h-64 bg-gray-900 border p-5 text-gray-100 font-mono resize-none focus:outline-none border-transparent rounded-md"
+          className=" bg-gray-900 border p-5 min-[832px]:h-full min-h-[300px] text-gray-100 font-mono resize-none focus:outline-none border-transparent rounded-md scrollbar-custom"
           value={leftRecursionInput}
           readOnly
         />
 
-        <div className="h-full bg-gray-900 border border-gray-600 rounded-lg p-4">
+        <div className="h-full bg-gray-900 border border-gray-600 rounded-lg p-4 flex flex-col overflow-hidden">
           <h3 className="text-gray-100 mb-3 text-sm flex items-center gap-2">
             <Code size={18} className="text-blue-400" />
             Vectores
           </h3>
-
-          <div className="max-h-48 overflow-auto">
+          <div className="flex-1 min-h-0 max-h-full overflow-auto scrollbar-custom">
             <table className="w-full text-sm border-collapse">
               <thead className="sticky top-0">
                 <tr>
@@ -64,13 +63,13 @@ export default function LeftRecursionSection({
           </div>
         </div>
 
-        <div className="bg-gray-900 border border-gray-600 rounded-lg p-4">
+        <div className="h-full bg-gray-900 border border-gray-600 rounded-lg p-4 flex flex-col overflow-hidden">
           <h3 className="text-gray-100 mb-3 text-sm flex items-center gap-2">
             <Database size={18} className="text-blue-400" />
             Producciones
             <span className="ml-2 text-xs text-gray-400">({producciones.length})</span>
           </h3>
-          <div className="max-h-48 overflow-auto">
+          <div className="flex-1 min-h-0 max-h-full overflow-auto scrollbar-custom">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr>
