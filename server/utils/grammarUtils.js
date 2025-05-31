@@ -9,7 +9,7 @@ function parseGrammarFromText(grammarText) {
     const [left, right] = splitLine(line)
     const variable = left.trim()
     variables.add(variable)
-    
+
     const rightSides = right.split("|").map(p => p.trim())
 
     for (const prod of rightSides) {
@@ -17,6 +17,7 @@ function parseGrammarFromText(grammarText) {
       let i = 0
       while (i < prod.length) {
         const char = prod[i]
+
         if (char === "'") {
           let terminal = ""
           i++
@@ -27,6 +28,7 @@ function parseGrammarFromText(grammarText) {
           i++ // skip closing '
           terminales.add(terminal)
           tokens.push(terminal)
+
         } else if (/[A-Z]/.test(char)) {
           let varName = char
           i++
@@ -36,10 +38,13 @@ function parseGrammarFromText(grammarText) {
           }
           variables.add(varName)
           tokens.push(varName)
-        } else if (/[a-z()]/.test(char)) {
+
+        } else if (/[a-z()+\-*/=;$]/.test(char)) {
+          // reconoce todos los símbolos relevantes como terminales
           terminales.add(char)
           tokens.push(char)
           i++
+
         } else {
           i++
         }

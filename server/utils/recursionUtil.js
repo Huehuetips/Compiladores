@@ -39,13 +39,22 @@ function removeLeftRecursion(variables, producciones) {
   return result
 }
 
-function formatProductionsAsText(productions) {
+function formatProductionsAsText(productions, terminales = []) {
   const grouped = {}
 
   productions.forEach(({ variable, production }) => {
     if (!grouped[variable]) grouped[variable] = []
     // Convierte producción a string si es array
-    grouped[variable].push(Array.isArray(production) ? production.join(" ") : production)
+    let prodStr = Array.isArray(production)
+      ? production
+          .map(sym =>
+            terminales.includes(sym) && sym !== "e"
+              ? `'${sym}'`
+              : sym
+          )
+          .join(" ")
+      : production
+    grouped[variable].push(prodStr)
   })
 
   return Object.entries(grouped)

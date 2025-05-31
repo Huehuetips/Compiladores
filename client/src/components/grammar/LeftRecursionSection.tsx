@@ -39,6 +39,9 @@ export default function LeftRecursionSection({
           <h3 className="text-gray-100 mb-3 text-sm flex items-center gap-2">
             <Code size={18} className="text-blue-400" />
             Vectores
+            <span className="ml-2 text-xs text-gray-400">
+              (V: {variables.length}, T: {terminales.length})
+            </span>
           </h3>
           <div className="flex-1 min-h-0 max-h-full overflow-auto scrollbar-custom">
             <table className="w-full text-sm border-collapse">

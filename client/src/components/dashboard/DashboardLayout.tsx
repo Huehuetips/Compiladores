@@ -12,8 +12,8 @@ const fixedComponents = ["GrammarEditor"]
 const layouts = {
   lg: [
     { i: "TerminalOutput", x: 0, y: 0, w: 12, h: 2, minH: 2 },
-    { i: "GrammarEditor", x: 0, y: 2, w: 6, h: 3, minH: 2 },
-    { i: "LeftRecursionSection", x: 6, y: 2, w: 6, h: 3, minH: 2 },
+    { i: "GrammarEditor", x: 0, y: 2, w: 6, h: 4, minH: 2 },
+    { i: "LeftRecursionSection", x: 6, y: 2, w: 6, h: 4, minH: 2 },
     { i: "FirstFunctionTable", x: 0, y: 5, w: 3, h: 3, minH: 2 },
     { i: "FollowFunctionTable", x: 3, y: 5, w: 3, h: 3, minH: 2 },
     { i: "SymbolTable", x: 6, y: 5, w: 6, h: 3, minH: 2 },
