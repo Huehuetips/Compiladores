@@ -285,5 +285,3 @@ Genera la tabla de análisis LL(1).
 Este proyecto se distribuye bajo la licencia MIT.
 
 ---
-
-¿Tienes dudas sobre algún endpoint, formato de datos o deseas ejemplos más específicos?
